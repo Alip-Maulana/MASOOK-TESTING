@@ -55,3 +55,49 @@ test('click ngawur', async ({ page }) => {
 
 });
 
+test('Lihat lokasi', async ({ page }) => {
+  await page.goto('https://sim.dev.masook.id/#/login');
+  await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+  await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+  await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+  await page.getByRole('button', { name: 'Masuk' }).click();
+  await page.goto('https://sim.dev.masook.id/#/pilihOrganisasi');
+  await page.getByText('Jayantara Indonesia').click();
+  await page.goto('https://sim.dev.masook.id/#/dashboard/ORG-BPDZNU');
+  await page.getByRole('link', { name: 'Riwayat Kehadiran' }).click();
+  await page.getByRole('button', { name: 'Selesai' }).click();
+  const page1Promise = page.waitForEvent('popup');
+  await page.getByRole('row', { name: 'Kamis, 30-01-2025 17:08' }).getByRole('button').first().click();
+  const page1 = await page1Promise;
+  await page1.goto('https://www.google.com/maps/place/7%C2%B057\'15.9%22S+112%C2%B037\'42.0%22E/@-7.954426,112.6283413,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-7.954426!4d112.6283413?entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D');
+});
+
+test('Fail Add Data Cuti', async ({ page }) => {
+  await page.goto('https://sim.dev.masook.id/#/login');
+  await page.getByRole('textbox', { name: 'Username' }).click();
+  await page.getByRole('textbox', { name: 'Username' }).fill('operatorjmi@mail.com');
+  await page.getByRole('textbox', { name: 'Kata Sandi' }).click();
+  await page.getByRole('textbox', { name: 'Kata Sandi' }).fill('111111');
+  await page.getByRole('button', { name: 'Masuk' }).click();
+  await page.getByText('Jayantara Indonesia').click();
+  await page.getByRole('button', { name: 'Kelola Instansi' }).click();
+  await page.getByRole('link', { name: 'Hari Libur' }).click();
+  await page.locator('#add').click();
+  await page.getByRole('textbox', { name: 'Tanggal Awal' }).click();
+  await page.getByRole('button', { name: 'February' }).click();
+  await page.getByText('2025').nth(3).click();
+  await page.getByText('1925').click();
+  await page.getByRole('button', { name: 'Mar' }).click();
+  await page.getByRole('button', { name: '5', exact: true }).click();
+  await page.locator('#input-363').click();
+  await page.getByRole('menu').getByText('1925', { exact: true }).click();
+  await page.getByText('2025', { exact: true }).click();
+  await page.getByRole('button', { name: 'Mar' }).click();
+  await page.getByRole('button', { name: '5', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Keterangan' }).click();
+  await page.locator('#input-367').fill('testing ');
+  await page.locator('form').getByRole('button').click();
+  await page.locator('#list-item-451-1').getByText('Cuti Bersama').click();
+  await page.getByRole('button', { name: 'Simpan' }).click();
+});
+
